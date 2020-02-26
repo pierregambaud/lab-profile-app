@@ -12,7 +12,8 @@ const path         = require('path');
 const session    = require("express-session");
 const MongoStore = require('connect-mongo')(session);
 const flash      = require("connect-flash");
-    
+
+const cors       = require("cors");
 
 mongoose
   .connect('mongodb://localhost/server', {useNewUrlParser: true})
@@ -35,11 +36,16 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 // Express View engine setup
-
 app.use(require('node-sass-middleware')({
   src:  path.join(__dirname, 'public'),
   dest: path.join(__dirname, 'public'),
   sourceMap: true
+}));
+
+// allow cross-origin interaction
+app.use(cors({
+  credentials: true,
+  origin: ['http://localhost:3000']
 }));
       
 
